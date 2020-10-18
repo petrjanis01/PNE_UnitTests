@@ -19,8 +19,14 @@ namespace CodeToTest.DataServices
 
         public List<Post> GetPostsWithCommentsCreatedInRange(DateTime from, DateTime until)
         {
-            var comments = _commentService.GetAllCommentsCreatedInTimeRange(from, until);
+            var comments = _commentService.GetCommentsCreatedInRange(from, until);
             var posts = comments.Select(c => c.Post).Distinct().ToList();
+            return posts;
+        }
+
+        public List<Post> GetPostsByUserId(Guid id)
+        {
+            var posts = _dbContext.Posts.Where(p => p.UserId == id).ToList();
             return posts;
         }
     }

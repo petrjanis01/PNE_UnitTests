@@ -8,9 +8,20 @@ namespace CodeToTest.Tests
     {
         private Algorithms _SUT;
 
+        // Bad practice
         public AlgorithmsTest()
         {
             _SUT = new Algorithms();
+        }
+
+        [DataTestMethod]
+        [DataRow(new[] { 10, 15, 30, 1, 22, 2 })]
+        [DataRow(new[] { 4, 5, 40, 1, 33, 2000 })]
+        public void FinMin_AllValuesPositive_ReturnCorrectValue(int[] arr)
+        {
+            var min = _SUT.FindMin(arr);
+
+            Assert.AreEqual(1, min);
         }
 
         [DataTestMethod]
@@ -24,17 +35,25 @@ namespace CodeToTest.Tests
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
-        public void FinMin_AllValuesPositive_ShouldReturnCorrectValue()
+        [DataTestMethod]
+        [DataRow(2)]
+        [DataRow(3)]
+        [DataRow(5)]
+        public void IsPrime_ValuesGreaterThan2_ReturnTrue(int value)
         {
-            // Arrange
-            var arr = new[] { 10, 5, 20, 1, 33, 2, 46, 47 };
+            var result = _SUT.IsPrime(value);
 
-            // Act
-            var min = _SUT.FindMin(arr);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void IsPrime_NotPrimeNumber_ReturnFalse()
+        {
+            // Arrange/Act
+            var result = _SUT.IsPrime(10);
 
             // Assert
-            Assert.AreEqual(1, min);
+            Assert.IsFalse(result);
         }
     }
 

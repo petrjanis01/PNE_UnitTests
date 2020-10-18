@@ -35,7 +35,7 @@ namespace CodeToTest.Tests
             TestDataContext.SaveChanges();
 
             // Act
-            var result = _SUT.GetAllCommentsCreatedInTimeRange(from, until);
+            var result = _SUT.GetCommentsCreatedInRange(from, until);
 
             // Assert
             Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment1.Id));
@@ -61,7 +61,7 @@ namespace CodeToTest.Tests
             TestDataContext.SaveChanges();
 
             // Act
-            var result = _SUT.GetAllCommentsCreatedInTimeRange(from, until);
+            var result = _SUT.GetCommentsCreatedInRange(from, until);
 
             // Assert
             Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment1.Id));
@@ -87,7 +87,7 @@ namespace CodeToTest.Tests
             TestDataContext.SaveChanges();
 
             // Act
-            var result = _SUT.GetAllCommentsCreatedInTimeRange(from, until);
+            var result = _SUT.GetCommentsCreatedInRange(from, until);
 
             // Assert
             Assert.IsNull(result.FirstOrDefault(c => c.Id == outOfRangeComment.Id));

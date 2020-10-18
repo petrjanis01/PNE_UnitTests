@@ -15,7 +15,7 @@ namespace CodeToTest.DataServices
             _dbContext = dataContext;
         }
 
-        public List<Comment> GetAllCommentsCreatedInTimeRange(DateTime from, DateTime until)
+        public List<Comment> GetCommentsCreatedInRange(DateTime from, DateTime until)
         {
             var comments = _dbContext.Comments
                 .Where(c => c.CreatedDateTime >= from && c.CreatedDateTime <= until);

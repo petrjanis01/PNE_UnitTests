@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CodeToTest.DataServices;
 using DatabaseAccess;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -22,25 +19,22 @@ namespace CodeToTest.Tests
         {
             _commentServiceMock = new Mock<ICommentDataService>();
             _SUT = new PostDataService(TestDataContext, _commentServiceMock.Object);
+
+            _commentServiceMock
+                .Setup(s => s.GetCommentsCreatedInRange(It.IsAny<DateTime>(), It.IsAny<DateTime>()))
+                .Returns((DateTime from, DateTime until) => TestDataContext.Comments.ToList());
         }
 
         [TestMethod]
         public void GetPostsWithCommentsCreatedInRange_WhenAllInExclusiveRange_CorrectDataReturned()
         {
             // Arrange
-            _commentServiceMock
-                .Setup(s => s.GetAllCommentsCreatedInTimeRange(It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-                .Returns((DateTime from, DateTime until) => TestDataContext.Comments.ToList());
-
-            var until = DateTime.Now;
+            var until = DateTime.Now.AddDays(-1);
             var from = until.AddDays(-5);
 
             var comment1 = RandomDataEntityGenerator.CreateCommentWithRandomData();
-            comment1.Post.CreatedTime = from.AddDays(1);
             var comment2 = RandomDataEntityGenerator.CreateCommentWithRandomData();
-            comment2.Post.CreatedTime = from.AddDays(2);
             var comment3 = RandomDataEntityGenerator.CreateCommentWithRandomData();
-            comment3.Post.CreatedTime = from.AddDays(4);
 
             TestDataContext.Comments.AddRange(new[] { comment1, comment2, comment3 });
             TestDataContext.SaveChanges();
@@ -58,11 +52,7 @@ namespace CodeToTest.Tests
         public void GetPostsWithCommentsCreatedInRange_WhenMultipleCommentsPerPost_CorrectAmountReturned()
         {
             // Arrange
-            _commentServiceMock
-                .Setup(s => s.GetAllCommentsCreatedInTimeRange(It.IsAny<DateTime>(), It.IsAny<DateTime>()))
-                .Returns((DateTime from, DateTime until) => TestDataContext.Comments.ToList());
-
-            var until = DateTime.Now;
+            var until = DateTime.Now.AddDays(-1);
             var from = until.AddDays(-5);
 
             var user = RandomDataEntityGenerator.CreateUserWithRandomData();
@@ -78,14 +68,14 @@ namespace CodeToTest.Tests
             comment2.User = user;
             comment2.Post = post;
 
-            TestDataContext.Comments.AddRange(new[] { comment2, comment2 });
+            TestDataContext.Comments.AddRange(new[] { comment1, comment2 });
             TestDataContext.SaveChanges();
 
             // Act
             var result = _SUT.GetPostsWithCommentsCreatedInRange(from, until);
 
             // Assert
-            Assert.AreEqual(1, result.Count(p => p.Id == post.Id));
+            Assert.AreEqual(1, result.Count());
         }
     }
 }

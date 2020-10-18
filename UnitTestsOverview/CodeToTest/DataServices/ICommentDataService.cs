@@ -6,6 +6,6 @@ namespace CodeToTest.DataServices
 {
     public interface ICommentDataService
     {
-        List<Comment> GetAllCommentsCreatedInTimeRange(DateTime from, DateTime until);
+        List<Comment> GetCommentsCreatedInRange(DateTime from, DateTime until);
     }
 }

@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj" />
-    <ProjectReference Include="..\DataContext\DatabaseAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
