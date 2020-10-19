@@ -11,7 +11,6 @@ namespace DatabaseAccess.Tests
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context)
         {
-
             var basePath = AppContext.BaseDirectory;
 
             var configBuilder = new ConfigurationBuilder()

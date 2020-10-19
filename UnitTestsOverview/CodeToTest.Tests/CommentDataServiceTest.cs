@@ -38,9 +38,7 @@ namespace CodeToTest.Tests
             var result = _SUT.GetCommentsCreatedInRange(from, until);
 
             // Assert
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment1.Id));
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment2.Id));
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment3.Id));
+            Assert.AreEqual(3, result.Count);
         }
 
         [TestMethod]
@@ -64,9 +62,7 @@ namespace CodeToTest.Tests
             var result = _SUT.GetCommentsCreatedInRange(from, until);
 
             // Assert
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment1.Id));
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment2.Id));
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment3.Id));
+            Assert.AreEqual(3, result.Count);
         }
 
         [TestMethod]
@@ -90,11 +86,7 @@ namespace CodeToTest.Tests
             var result = _SUT.GetCommentsCreatedInRange(from, until);
 
             // Assert
-            Assert.IsNull(result.FirstOrDefault(c => c.Id == outOfRangeComment.Id));
-            Assert.IsNotNull(result.FirstOrDefault(c => c.Id == comment2.Id));
-            Assert.IsNull(result.FirstOrDefault(c => c.Id == outOfRangeComment1.Id));
+            Assert.AreEqual(1, result.Count);
         }
-
-        // TODO correct amount returned
     }
 }

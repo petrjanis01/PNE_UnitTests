@@ -8,11 +8,12 @@ namespace CodeToTest.Tests
     {
         private Algorithms _SUT;
 
-        // Bad practice
-        public AlgorithmsTest()
+        [TestInitialize]
+        public void TestInitialize()
         {
             _SUT = new Algorithms();
         }
+
 
         [DataTestMethod]
         [DataRow(new[] { 10, 15, 30, 1, 22, 2 })]

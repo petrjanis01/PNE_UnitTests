@@ -1,5 +1,6 @@
 ﻿using DatabaseAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CodeToTest.Tests
 {
@@ -10,6 +11,12 @@ namespace CodeToTest.Tests
         protected TestDatabaseAccessBase()
         {
             TestDataContext = CreateInMemoryDataContext();
+        }
+
+        [TestCleanup]
+        public virtual void TestCleanup()
+        {
+            TestDataContext.Database.EnsureDeleted();
         }
 
         public static DataContext CreateInMemoryDataContext()
